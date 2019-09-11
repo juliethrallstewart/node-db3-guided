@@ -32,6 +32,18 @@ router.get('/:id', (req, res) => {
   });
 });
 
+router.get('/:id/posts', (req, res) => {
+  db('posts as p')
+    .join('users as u', 'u.id', '=', 'p.user_id')
+    .where({user_id: id})
+    .then(posts => {
+      res.status(200).json(posts)
+    })
+    .catch(err => {
+      res.send(err)
+    })
+})
+
 router.post('/', (req, res) => {
   const userData = req.body;
 
